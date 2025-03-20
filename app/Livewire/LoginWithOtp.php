@@ -16,18 +16,18 @@ class LoginWithOtp extends Component
     {
         $this->otp = rand(1000, 9999);
 
-        Http::post('https://sms.raygansms.com/send', [
+        /*Http::post('http://0.0.0.0:8000', [
             'apikey' => 'YOUR_API_KEY',
             'number' => $this->phone,
             'message' => "کد تایید شما: $this->otp"
-        ]);
+        ]);*/
 
         $this->isOtpSent = true;
     }
 
     public function verifyOtp()
     {
-        if ($this->otp == session('otp')) {
+        if ($this->otp == session('otp') && true) {
             $user = User::firstOrCreate(['phone' => $this->phone]);
             auth()->login($user);
             return redirect()->route('dashboard');

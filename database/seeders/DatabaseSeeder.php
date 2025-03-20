@@ -8,6 +8,8 @@ use App\Models\RecordedAudio;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,44 +18,56 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // ایجاد کاربر ادمین
-        $admin = User::factory()->create([
-            'name' => 'ادمین',
+        $faker = Faker::create('fa_IR');
+
+        // ایجاد ادمین
+        User::factory()->admin()->create([
+            'name' => 'مدیر سایت',
             'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'is_admin' => true,
         ]);
 
         // ایجاد خبرنگار
-        $journalist = User::factory()->create([
-            'name' => 'خبرنگار',
+        User::factory()->create([
+            'name' => 'خبرنگار ارشد',
             'email' => 'journalist@example.com',
-            'password' => bcrypt('password'),
-            'is_admin' => false,
         ]);
 
         // ایجاد منابع خبری
-        $sources = NewsSource::factory()->count(3)->create();
+        $sources = [
+            'خبرگزاری فارس',
+            'ایرنا',
+            'تسنیم',
+            'مهر',
+            'ایسنا'
+        ];
 
-        // ایجاد اخبار برای هر منبع خبری
-        $sources->each(function ($source) use ($journalist) {
-            $newsItems = News::factory()->count(5)->create([
-                'source_id' => $source->id,
-            ]);
+        foreach ($sources as $sourceName) {
+            NewsSource::create(['name' => $sourceName]);
+        }
 
-            // ایجاد ضبط صوت برای برخی از اخبار
-            $newsItems->each(function ($news) use ($journalist) {
-                if (rand(0, 1)) { // 50% احتمال برای داشتن ضبط صدا
-                    RecordedAudio::factory()->create([
+        // آپلود یک تصویر تستی در سرور
+        $uploadedImagePath = 'news_images/uploaded_sample.jpg';
+        Storage::disk('public')->put($uploadedImagePath, file_get_contents('https://www.dummyimage.com/600x400/000/fff'));
+
+        // ایجاد اخبار
+        NewsSource::all()->each(function ($source) use ($faker, $uploadedImagePath) {
+            for ($i = 0; $i < 5; $i++) {
+                $news = News::factory()->create([
+                    'source_id' => $source->id
+                ]);
+
+                // ایجاد ضبط صوت برای برخی از اخبار
+                if (rand(0, 1)) {
+                    RecordedAudio::create([
                         'news_id' => $news->id,
-                        'user_id' => $journalist->id,
+                        'user_id' => User::where('is_admin', false)->inRandomOrder()->first()->id,
                         'audio_path' => 'recordings/sample.mp3',
                         'status' => rand(0, 1) ? 'approved' : 'pending',
                     ]);
                 }
-            });
+            }
         });
 
-        $this->command->info('Seeder با موفقیت اجرا شد و داده‌ها مقداردهی شدند.');
+        $this->command->info('Seeder با داده‌های فارسی و یک تصویر آپلودی اجرا شد.');
     }
 }

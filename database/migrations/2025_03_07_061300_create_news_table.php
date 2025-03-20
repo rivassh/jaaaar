@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->string('image')->nullable();
+            $table->string('image_url')->nullable();
             $table->foreignId('source_id')->constrained('news_sources')->onDelete('cascade');
             $table->string('original_link')->nullable();
             $table->timestamps();

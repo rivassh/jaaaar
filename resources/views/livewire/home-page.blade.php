@@ -5,7 +5,7 @@
             @foreach ($newsGroups->take(5) as $source)
                 @foreach ($source->news->take(1) as $news)
                     <div class="w-full min-w-full">
-                        <img src="{{ $news->image }}" alt="News Image" class="w-full h-64 object-cover">
+                        <img src="{{ $news->image_url }}" alt="News Image" class="w-full h-64 object-cover">
                         <div class="absolute bottom-0 left-0 p-4 bg-black bg-opacity-50 text-white">
                             <h2 class="text-lg font-bold">{{ $news->title }}</h2>
                             <p class="text-sm">{{ $source->name }}</p>
@@ -30,7 +30,7 @@
             <div class="flex overflow-x-auto space-x-4">
                 @foreach ($source->news as $news)
                     <a href="{{ route('news.show', $news->id) }}" class="block w-60 bg-white shadow-lg rounded-lg">
-                        <img src="{{ $news->image }}" alt="News Image" class="w-full h-32 object-cover rounded-t-lg">
+                        <img src="{{ $news->image_url }}" alt="News Image" class="w-full h-32 object-cover rounded-t-lg">
                         <div class="p-2">
                             <h4 class="text-sm font-semibold">{{ $news->title }}</h4>
                         </div>

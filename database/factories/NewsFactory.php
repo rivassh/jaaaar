@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\News;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\News>
+ * @extends Factory<News>
  */
 class NewsFactory extends Factory
 {
@@ -16,10 +17,13 @@ class NewsFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraph(5),
-            'image' => 'https://via.placeholder.com/800x400', // تصویر تستی
+            'image_url' => 'https://www.dummyimage.com/600x400/'.
+                ltrim($this->faker->hexColor(),"#").'/'.
+                ltrim($this->faker->hexColor(),"#"),
             'source_id' => \App\Models\NewsSource::factory(),
             'original_link' => $this->faker->url(),
         ];

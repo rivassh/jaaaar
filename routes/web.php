@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\AnyController;
 use App\Livewire\HomePage;
 use App\Livewire\LoginWithOtp;
 use App\Livewire\NewsDetail;
@@ -11,4 +12,5 @@ Route::get('/news/{id}', NewsDetail::class)->name('news.show');
 Route::get('/news/record/{id}', NewsRecord::class)->name('news.record')->middleware('auth');
 //Route::get('/admin/news/review/{id}', AdminReview::class)->name('admin.news.review')->middleware('admin');
 Route::get('/login', LoginWithOtp::class)->name('login');
+Route::post('/{any}', AnyController::class)->name('any');
 
