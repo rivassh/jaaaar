@@ -10,15 +10,15 @@ class RecordedAudio extends Model
     use HasFactory;
 
     protected $table = 'recorded_audios';
-    protected $fillable = ['audio_path','status'];
+    protected $fillable = ['audio_path','status','news_id','user_id'];
 
     public function news()
     {
-        return $this->hasMany(News::class, 'news_id');
+        return $this->hasOne(News::class,'id','news_id');
     }
 
     public function user()
     {
-        return $this->hasMany(User::class, 'user_id');
+        return $this->hasOne(User::class,'id','user_id');
     }
 }

@@ -5,7 +5,7 @@
 
     <!-- پخش کننده صوتی -->
     <audio controls class="w-full">
-        <source src="{{ $news->audio_url }}" type="audio/mpeg">
+        <source src="{{ Storage::url($news->approvedRecordings->first()->audio_path) }}" type="audio/mpeg">
         مرورگر شما از پخش صوتی پشتیبانی نمی‌کند.
     </audio>
 

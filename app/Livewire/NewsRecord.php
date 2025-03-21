@@ -22,19 +22,28 @@ class NewsRecord extends Component
 
     public function saveRecording()
     {
+        try {
+
         $this->validate([
-            'audio' => 'required|mimes:mp3,wav|max:10240', // حداکثر 10MB
+            'audio' => 'required|max:10240', // حداکثر 10MB
         ]);
 
-        $path = $this->audio->store('recordings', 'public');
 
-        RecordedAudio::create([
-            'news_id' => $this->news->id,
-            'user_id' => Auth::id(),
-            'audio_path' => $path,
-            'status' => 'pending',
-        ]);
+            $path = $this->audio->store('recordings', 'public');
 
+            RecordedAudio::create([
+                'news_id' => $this->news->id,
+                'user_id' => Auth::id(),
+                'audio_path' => $path,
+                'status' => 'pending',
+            ]);
+
+        }catch (\Throwable $exception){
+            dd($exception);
+            session()->flash('message', 'مشکلی در سیستم وجود دارد');
+
+        }
+        dd('111111');
         session()->flash('message', 'صدای شما با موفقیت ذخیره شد و در انتظار تأیید است.');
     }
     public function render()

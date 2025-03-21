@@ -26,4 +26,10 @@ class News extends Model
     {
         return $this->hasMany(RecordedAudio::class, 'news_id');
     }
+
+    public function approvedRecordings()
+    {
+        return $this->hasMany(RecordedAudio::class, 'news_id')
+            ->where('status','approved');
+    }
 }

@@ -2,6 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @livewireStyles
+        <link href="/css/style.css" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Yekan', sans-serif;
+                background-color: #f9f9f9;
+            }
+        </style>
 
         @livewireScripts
 
@@ -11,8 +18,6 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-{{--        <link rel="preconnect" href="https://fonts.bunny.net">--}}
-        <link href="/css/fonts.css" rel="stylesheet" />
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))

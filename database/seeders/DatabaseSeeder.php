@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->admin()->create([
             'name' => 'مدیر سایت',
             'email' => 'admin@example.com',
+            'phone' => config('phone.admin'),
         ]);
 
         // ایجاد خبرنگار
